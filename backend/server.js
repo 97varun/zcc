@@ -27,7 +27,7 @@ app.options('*', (req, res) => {
 });
 
 app.all('*', (req, res) => {
-    res.set(corsHeaders).status(404).send('{"error": "Not found"}');
+    res.set(corsHeaders).status(404).send('{"error": "Path not found"}');
 });
 
 app.listen(port, () => {

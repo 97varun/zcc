@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.0"
+   width="65"
+   height="65"
+   id="svg273"
+   docname="vv2.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs277" />
+  <namedview
+     id="namedview275"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="7.3675214"
+     inkscape:cx="32.50754"
+     inkscape:cy="25.992459"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg273" />
+  <g
+     aria-label="v"
+     transform="scale(0.90665209,1.1029589)"
+     id="text271"
+     style="font-size:82.8939px;font-family:'DejaVu Sans', 'Bitstream Vera Sans';fill:#2a7fff;stroke-width:0.690782">
+    <path
+       d="M 5.2742104,3.9771339 H 13.16694 L 27.333378,42.024138 41.499815,3.9771339 h 7.89273 L 32.39282,49.309734 H 22.273936 Z"
+       id="path1300" />
+  </g>
+  <g
+     aria-label="v"
+     transform="matrix(0.90665209,0,0,1.1029589,-4.8863109,-7.3294663)"
+     id="text271-8"
+     style="font-size:82.8939px;font-family:'DejaVu Sans', 'Bitstream Vera Sans';fill:#2a7fff;stroke-width:0.690782">
+    <path
+       d="M 45.541039,56.138798 62.820746,10.806197 h 7.89273 L 53.713751,56.138798 Z"
+       id="path1629"
+      />
+  </g>
+</svg>
