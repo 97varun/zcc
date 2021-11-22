@@ -5,11 +5,8 @@ const configHelper = require('./configHelper');
 function getQueryString(direction, cursor) {
     queryParameters = [`page[size]=${constants.DEFAULT_NUM_TICKETS_PER_PAGE}`];
 
-    if (direction === constants.DIRECTION_BEFORE) {
-        queryParameters.push(`page[${DIRECTION_BEFORE}]=${cursor}`);
-    }
-    else if (direction === constants.DIRECTION_AFTER) {
-        queryParameters.push(`page[${DIRECTION_AFTER}]=${cursor}`);
+    if (direction === constants.DIRECTION_BEFORE || direction === constants.DIRECTION_AFTER) {
+        queryParameters.push(`page[${direction}]=${cursor}`);
     }
 
     return queryParameters.join('&');
@@ -33,7 +30,7 @@ async function getRequestOptions(queryString) {
         });
 }
 
-async function getTickets(callback, direction, cursor) {
+async function getTickets(direction, cursor) {
     let queryString = getQueryString(direction, cursor);
     return getRequestOptions(queryString)
         .then(options => httpsClient.getData(options))

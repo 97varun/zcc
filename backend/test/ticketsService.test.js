@@ -4,8 +4,24 @@ chai.use(chaiAsPromised);
 
 var ticketsService = require('../ticketsService');
 var httpsClient = require('../httpsClient');
+const constants = require('../constants');
 
-let sampleTicketResponse = {
+const sampleTicketResponseCurrPage = {
+    "tickets": [
+        {
+            id: 3,
+            subject: 'test subject 3',
+            description: 'test description 3',
+        },
+        {
+            id: 4,
+            subject: 'test subject 4',
+            description: 'test description 4',
+        }
+    ]
+};
+
+const sampleTicketResponsePrevPage = {
     "tickets": [
         {
             id: 1,
@@ -17,8 +33,25 @@ let sampleTicketResponse = {
             subject: 'test subject 2',
             description: 'test description 2',
         }
+    ],
+};
+
+const sampleTicketResponseNextPage = {
+    "tickets": [
+        {
+            id: 5,
+            subject: 'test subject 5',
+            description: 'test description 5',
+        },
+        {
+            id: 6,
+            subject: 'test subject 6',
+            description: 'test description 6',
+        }
     ]
 };
+
+const testError = JSON.stringify({ error: 'test error' });
 
 describe('ticketsService', () => {
     let saveGetData;
@@ -46,19 +79,45 @@ describe('ticketsService', () => {
     describe('getTickets', () => {
         it('should return tickets', () => {
             httpsClient.getData = async (options) => {
-                return JSON.stringify(sampleTicketResponse);
+                return JSON.stringify(sampleTicketResponseCurrPage);
             };
 
-            return chai.expect(ticketsService.getTickets()).to.eventually.deep.equal(sampleTicketResponse);
+            return chai.expect(ticketsService.getTickets()).to.eventually.deep.equal(sampleTicketResponseCurrPage);
         });
 
         it('should return error if httpClient returns an error', () => {
-            const testError = JSON.stringify({ error: 'test error' });
             httpsClient.getData = async (options) => {
                 throw new Error(testError);
             };
 
             return chai.expect(ticketsService.getTickets()).to.be.rejectedWith(testError);
+        });
+
+        it('should get next page of tickets', () => {
+            httpsClient.getData = async (options) => {
+                if (options.path.includes('invalidcursor')) {
+                    throw new Error(testError);
+                }
+                else if (options.path.includes('after') && options.path.includes('testcursor1')) {
+                    return JSON.stringify(sampleTicketResponseNextPage);
+                }
+                else if (options.path.includes('before') && options.path.includes('testcursor2')) {
+                    return JSON.stringify(sampleTicketResponsePrevPage);
+                }
+                else {
+                    return JSON.stringify(sampleTicketResponseCurrPage);
+                }
+            };
+
+            return chai.expect(ticketsService.getTickets(constants.DIRECTION_AFTER, 'testcursor1')).to.eventually.deep.equal(sampleTicketResponseNextPage);
+        });
+
+        it('should get previous page of tickets', () => {
+            return chai.expect(ticketsService.getTickets(constants.DIRECTION_BEFORE, 'testcursor2')).to.eventually.deep.equal(sampleTicketResponsePrevPage);
+        });
+
+        it('should return error for invalid cursor', () => {
+            return chai.expect(ticketsService.getTickets(constants.DIRECTION_BEFORE, 'invalidcursor')).to.be.rejectedWith(testError);
         });
     });
 });

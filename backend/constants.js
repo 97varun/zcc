@@ -16,4 +16,7 @@ module.exports = {
     INVALID_ROUTE_MESSAGE: {
         error: 'Invalid Route',
     },
+    INVALID_DIRECTION_MESSAGE: {
+        error: 'Invalid Direction. Allowed directions are [before, after]',
+    },
 };
