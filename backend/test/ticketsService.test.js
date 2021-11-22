@@ -1,6 +1,9 @@
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
+
 var ticketsService = require('../ticketsService');
 var httpsClient = require('../httpsClient');
-const chai = require('chai');
 
 let sampleTicketResponse = {
     "tickets": [
@@ -41,27 +44,21 @@ describe('ticketsService', () => {
     });
 
     describe('getTickets', () => {
-        it('should return tickets', (done) => {
-            httpsClient.getData = (options, callback) => {
-                callback(null, JSON.stringify(sampleTicketResponse));
+        it('should return tickets', () => {
+            httpsClient.getData = async (options) => {
+                return JSON.stringify(sampleTicketResponse);
             };
 
-            ticketsService.getTickets((err, data) => {
-                chai.expect(err).to.be.null;
-                chai.expect(data).to.deep.equal(sampleTicketResponse);
-                done();
-            });
+            return chai.expect(ticketsService.getTickets()).to.eventually.deep.equal(sampleTicketResponse);
         });
 
-        it('should return error if httpClient returns an error', (done) => {
-            httpsClient.getData = (options, callback) => {
-                callback("{'error': 'test error'}", null);
+        it('should return error if httpClient returns an error', () => {
+            const testError = JSON.stringify({ error: 'test error' });
+            httpsClient.getData = async (options) => {
+                throw new Error(testError);
             };
 
-            ticketsService.getTickets((err, data) => {
-                chai.expect(err).to.be.a('string');
-                done();
-            });
+            return chai.expect(ticketsService.getTickets()).to.be.rejectedWith(testError);
         });
     });
 });

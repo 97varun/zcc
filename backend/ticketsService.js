@@ -2,33 +2,45 @@ const httpsClient = require('./httpsClient');
 const constants = require('./constants');
 const configHelper = require('./configHelper');
 
-function getTickets(callback) {
-    let config = null;
-    try {
-        config = configHelper.getConfigFromEnv();
+function getQueryString(direction, cursor) {
+    queryParameters = [`page[size]=${constants.DEFAULT_NUM_TICKETS_PER_PAGE}`];
 
-        options = {
-            host: `${config.subdomain}.zendesk.com`,
-            path: '/api/v2/tickets.json?' + `page[size]=${constants.NUM_TICKETS_PER_PAGE}`,
-            method: 'GET',
-            auth: `${config.username}/token:${config.token}`,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
+    if (direction === constants.DIRECTION_BEFORE) {
+        queryParameters.push(`page[${DIRECTION_BEFORE}]=${cursor}`);
+    }
+    else if (direction === constants.DIRECTION_AFTER) {
+        queryParameters.push(`page[${DIRECTION_AFTER}]=${cursor}`);
+    }
 
-        httpsClient.getData(options, (err, data) => {
-            if (err) {
-                callback(err, null);
-            }
-            else {
-                callback(null, JSON.parse(data));
-            }
+    return queryParameters.join('&');
+}
+
+async function getRequestOptions(queryString) {
+    return configHelper.getConfigFromEnv()
+        .then(config => {
+            return {
+                host: `${config.subdomain}.zendesk.com`,
+                path: `${constants.TICKETS_PATH}?${queryString}`,
+                method: 'GET',
+                auth: `${config.username}/token:${config.token}`,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+        })
+        .catch(err => {
+            throw err;
         });
-    }
-    catch (err) {
-        callback(err, null);
-    }
+}
+
+async function getTickets(callback, direction, cursor) {
+    let queryString = getQueryString(direction, cursor);
+    return getRequestOptions(queryString)
+        .then(options => httpsClient.getData(options))
+        .then(data => JSON.parse(data))
+        .catch(err => {
+            throw err;
+        });
 }
 
 module.exports = { getTickets };

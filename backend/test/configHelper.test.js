@@ -1,4 +1,7 @@
 const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
+
 var configHelper = require('../configHelper');
 
 describe('configHelper', () => {
@@ -15,9 +18,7 @@ describe('configHelper', () => {
             process.env.ZENDESK_USERNAME = 'testusername';
             process.env.ZENDESK_API_TOKEN = 'testtoken';
 
-            let config = configHelper.getConfigFromEnv();
-
-            chai.expect(config).to.deep.equal({
+            chai.expect(configHelper.getConfigFromEnv()).to.eventually.deep.equal({
                 subdomain: 'testsubdomain',
                 username: 'testusername',
                 token: 'testtoken',
@@ -25,20 +26,7 @@ describe('configHelper', () => {
         });
 
         it('should throw error when env variables are not set', () => {
-            chai.expect(() => {
-                configHelper.getConfigFromEnv();
-            }).to.throw('Environment variable ZENDESK_SUBDOMAIN not set');
-
-            chai.expect(() => {
-                process.env.ZENDESK_SUBDOMAIN = 'testsubdomain';
-                configHelper.getConfigFromEnv();
-            }).to.throw('Environment variable ZENDESK_USERNAME not set');
-
-            chai.expect(() => {
-                process.env.ZENDESK_SUBDOMAIN = 'testsubdomain';
-                process.env.ZENDESK_USERNAME = 'testusername';
-                configHelper.getConfigFromEnv();
-            }).to.throw('Environment variable ZENDESK_API_TOKEN not set');
+            return chai.expect(configHelper.getConfigFromEnv()).to.be.rejectedWith('Environment variable ZENDESK_SUBDOMAIN not set');
         });
     });
 });

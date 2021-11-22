@@ -1,16 +1,18 @@
 const https = require('https');
 
-function getData(options, callback) {
-    https.get(options, (res) => {
-        let data = '';
-        res.on('data', (chunk) => {
-            data += chunk;
+function getData(options) {
+    return new Promise((resolve, reject) => {
+        https.get(options, (res) => {
+            let data = '';
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                resolve(data);
+            });
+        }).on('error', (err) => {
+            reject(err);
         });
-        res.on('end', () => {
-            callback(null, data);
-        });
-    }).on('error', (err) => {
-        callback(err, null);
     });
 }
 

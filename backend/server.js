@@ -1,4 +1,5 @@
 const express = require('express');
+const constants = require('./constants');
 const ticketService = require('./ticketsService');
 
 const app = express();
@@ -11,15 +12,15 @@ const corsHeaders = {
 }
 
 app.get('/api/tickets', (req, res) => {
-    ticketService.getTickets((err, tickets) => {
-        res.set(corsHeaders);
-        if (err) {
-            res.status(500).send('{"error": "Internal server error"}');
-        }
-        else {
-            res.send(tickets);
-        }
-    });
+    res.set(corsHeaders);
+    ticketService.getTickets()
+        .then(tickets => {
+            res.status(200).send(JSON.stringify(tickets));
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send(JSON.stringify(constants.INTERNAL_ERROR_MESSAGE));
+        });
 });
 
 app.options('*', (req, res) => {
@@ -27,7 +28,7 @@ app.options('*', (req, res) => {
 });
 
 app.all('*', (req, res) => {
-    res.set(corsHeaders).status(404).send('{"error": "Path not found"}');
+    res.set(corsHeaders).status(404).send(JSON.stringify(constants.INVALID_ROUTE_MESSAGE));
 });
 
 app.listen(port, () => {
