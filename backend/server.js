@@ -33,8 +33,8 @@ app.get('/api/tickets/:direction/:cursor', (req, res) => {
     }
     else {
         ticketService.getTickets(direction, cursor)
-            .then(ticket => {
-                res.status(200).send(JSON.stringify(ticket));
+            .then(tickets => {
+                res.status(200).send(JSON.stringify(tickets));
             })
             .catch(err => {
                 console.error(err);
