@@ -36,7 +36,7 @@ async function getRequestOptions(queryString) {
 async function getUsers(ticketsResponse) {
     let users = {};
 
-    ticketsResponse.users.forEach(user => {
+    ticketsResponse.users?.forEach(user => {
         users[user.id] = { name: user.name };
     });
 
@@ -53,8 +53,8 @@ async function mapTicketResponse(ticketsResponse) {
                         subject: ticket.subject,
                         description: ticket.description,
                         status: ticket.status,
-                        requester: users[ticket.requester_id].name,
-                        assignee: ticket.assignee_id ? users[ticket.assignee_id].name : '',
+                        requester: users[ticket.requester_id]?.name,
+                        assignee: ticket.assignee_id ? users[ticket.assignee_id]?.name : '',
                         createdAt: ticket.created_at,
                     };
                 }),
