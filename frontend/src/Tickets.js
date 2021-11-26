@@ -6,20 +6,42 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { constants } from "./constants";
 import Pagination from "./Pagination";
+import CustomPlaceholder from './CustomPlaceholder';
 
+const loadingTickets = [
+    {
+        id: 1,
+        subject: <CustomPlaceholder height={1} width={4}/>,
+        description: <CustomPlaceholder height={3} width={12}/>
+    }
+];
 
 class Tickets extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            tickets: [],
+            tickets: loadingTickets,
             cursor: null,
             error: null,
             page: 1,
         };
     }
 
+    trimNewlines(data) {
+        data.tickets.forEach((ticket) => {
+            ticket.description = ticket.description.trim();
+        });
+        return data;
+    }
+
+
     fetchTickets(path) {
+        this.setState({
+            tickets: loadingTickets,
+            error: null,
+        });
+        
         fetch(`${constants.HOST}${path}`)
             .then((response) => {
                 if (response.ok) {
@@ -28,6 +50,7 @@ class Tickets extends React.Component {
                 throw new Error(constants.ERROR_MESSAGE_DESCRIPTION);
             })
             .then((data) => {
+                data = this.trimNewlines(data);
                 this.setState({
                     tickets: data.tickets,
                     cursor: {
@@ -39,7 +62,7 @@ class Tickets extends React.Component {
             })
             .catch((error) => {
                 this.setState({
-                    tickets: [{ id: 1, subject: constants.ERROR_MESSAGE_SUBJECT, description: error.message }],
+                    tickets: [{ id: 1, subject: constants.ERROR_MESSAGE_SUBJECT, description: constants.ERROR_MESSAGE_DESCRIPTION }],
                     error: error,
                 });
             });
@@ -91,7 +114,7 @@ class Tickets extends React.Component {
 class Ticket extends React.Component {
     render() {
         return (
-            <Row className="mt-2 mb-2 justify-content-center">
+            <Row className="mt-3 mb-3 justify-content-center">
                 <Col sm={12} md={12} lg={10} xl={10} xxl={10}>
                     <Card>
                         <Card.Body>
@@ -99,9 +122,8 @@ class Ticket extends React.Component {
                                 title={this.props.ticket.subject}
                                 status={this.props.ticket.status} />
                             <Card.Text style={{ whiteSpace: 'pre-line' }}>
-                                {this.props.ticket.description.trim()}
+                                {this.props.ticket.description}
                             </Card.Text>
-                            <hr />
                             <UserDetails
                                 requester={this.props.ticket.requester}
                                 assignee={this.props.ticket.assignee} />
@@ -123,7 +145,12 @@ function CardTitle(props) {
 }
 
 function UserDetails(props) {
+    if (!props.requester && !props.assignee) {
+        return null;
+    }
+
     return (
+        <hr />,
         <Row>
             <Col sm={6} md={6} lg={6} xl={6} xxl={6}>
                 <Card.Text className="text-muted">
