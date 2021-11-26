@@ -10,10 +10,16 @@ if (result.error) {
 const app = express();
 const port = 5000;
 
+// Set cors headers for all responses
+app.use(function (req, res, next) {
+    res.set(constants.CORS_HEADERS);
+    next();
+});
+
 app.use('/api/tickets', tickets);
 
 app.options('*', (req, res) => {
-    res.set(constants.CORS_HEADERS).send();
+    res.send();
 });
 
 app.all('*', (req, res) => {
