@@ -2,7 +2,7 @@ import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, screen, waitFor } from '@testing-library/react';
-import { constants } from './constants';
+import constants from './constants';
 
 import Tickets from './Tickets';
 
@@ -22,7 +22,12 @@ const server = setupServer(
                         subject: 'Ticket 2',
                         description: 'Description 2',
                     },
-                ]
+                ],
+                "meta": {
+                    "after_cursor": "",
+                    "before_cursor": "",
+                    "has_more": true,
+                }
             })
         );
     })
@@ -40,9 +45,10 @@ test('should render tickets', async () => {
     expect(document.querySelectorAll('h2').length).toBe(1);
     expect(document.querySelectorAll('h2')[0].textContent).toBe('Tickets');
     expect(document.querySelectorAll('hr').length).toBe(1);
-    await waitFor(() => {
-        expect(document.querySelectorAll('.card').length).toBe(2)
-    });
+
+    await waitFor(() => expect(screen.getByText('Ticket 1')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Ticket 2')).toBeInTheDocument());
+
     expect(screen.getByText('Pagination')).toBeInTheDocument();
 });
 
@@ -62,10 +68,7 @@ test('should render error', async () => {
 
     render(<Tickets />);
 
-    await waitFor(() => {
-        expect(document.querySelectorAll('.card').length).toBe(1)
-    });
-    expect(screen.getByText(constants.ERROR_MESSAGE_SUBJECT)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText(constants.ERROR_MESSAGE_SUBJECT)).toBeInTheDocument());
     expect(screen.getByText(constants.ERROR_MESSAGE_DESCRIPTION)).toBeInTheDocument();
     expect(screen.queryByText('Pagination')).not.toBeInTheDocument();
 });

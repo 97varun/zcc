@@ -1,4 +1,4 @@
-export const constants = {
+const constants = {
     BRAND: 'Zendesk Coding Challenge',
     HOST: 'http://localhost:5000',
     ERROR_MESSAGE_SUBJECT: 'Error!',
@@ -14,3 +14,5 @@ export const constants = {
         'closed': 'secondary'
     }
 };
+
+export default constants;
