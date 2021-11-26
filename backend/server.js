@@ -2,6 +2,11 @@ const express = require('express');
 const constants = require('./constants');
 const tickets = require('./tickets');
 
+const result = require('dotenv').config()
+if (result.error) {
+    throw result.error
+}
+
 const app = express();
 const port = 5000;
 
