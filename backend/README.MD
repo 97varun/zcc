@@ -1,10 +1,9 @@
-In the project directory, you can run:
+The backend is implemented in Node.js using the Express framework.
 
-### `npm start`
+There are a few layers in the backend.
+- The [server](/server.js) where the requests land.
+- The [tickets](./tickets.js) route where requests that come to /ticket are handled.
+- The [ticketService](/ticketService) which deals with tickets.
+- The [httpsClient](/httpsClient.js) which makes requests to the Zendesk API.
 
-Runs the app in the development mode.\
-Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.
+There are a few [unit tests](/test/ticketService.test.js) to test the functionality of ticketService.
