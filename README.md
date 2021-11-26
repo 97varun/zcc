@@ -35,3 +35,7 @@ If everything went well, the frontend should be available at http://localhost:30
 
 - [Backend](/backend/README.md)
 - [Frontend](/frontend/README.md)
+
+### Quick demo
+
+https://user-images.githubusercontent.com/19944378/143521734-6117efb7-c06a-4e8a-a43e-316022727f71.mp4
