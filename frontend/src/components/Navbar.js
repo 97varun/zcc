@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 
 import React from "react";
 
-import constants from './constants';
+import constants from '../helpers/constants';
 
 function FixedNavbar(props) {
     return (

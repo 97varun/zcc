@@ -1,6 +1,6 @@
 const express = require('express');
-const constants = require('./constants');
-const tickets = require('./tickets');
+const constants = require('./helpers/constants');
+const tickets = require('./routes/tickets');
 
 const result = require('dotenv').config()
 if (result.error) {

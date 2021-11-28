@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-var configHelper = require('../configHelper');
+var configHelper = require('../helpers/configHelper');
 
 describe('configHelper', () => {
     afterEach(() => {

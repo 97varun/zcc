@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import App from '../App';
 
-jest.mock('./Tickets', () => () => <div>Tickets</div>);
-jest.mock('./Navbar', () => () => <div>Navbar</div>);
+jest.mock('../components/Tickets', () => () => <div>Tickets</div>);
+jest.mock('../components/Navbar', () => () => <div>Navbar</div>);
 
 test('should render navbar and tickets', () => {
   render(<App />);

@@ -2,9 +2,9 @@ import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, screen, waitFor } from '@testing-library/react';
-import constants from './constants';
+import constants from '../helpers/constants';
 
-import Tickets from './Tickets';
+import Tickets from '../components/Tickets';
 
 const server = setupServer(
     rest.get(`${constants.HOST}/api/tickets`, (req, res, ctx) => {
@@ -37,7 +37,7 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-jest.mock('./Pagination', () => () => <div>Pagination</div>);
+jest.mock('../components/Pagination', () => () => <div>Pagination</div>);
 
 test('should render tickets', async () => {
     render(<Tickets />);

@@ -2,11 +2,11 @@ import React from "react";
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import constants from "./constants";
+import constants from "../helpers/constants";
 import Pagination from "./Pagination";
 import Ticket from "./Ticket";
-import { fetchTickets, loadingTickets } from "./ticketsHelper";
-import { updatePage } from "./pageHelper";
+import { fetchTickets, loadingTickets } from "../helpers/ticketsHelper";
+import { updatePage } from "../helpers/pageHelper";
 
 class Tickets extends React.Component {
     constructor(props) {

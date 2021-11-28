@@ -1,7 +1,7 @@
 import React from "react";
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
-import constants from "./constants";
+import constants from "../helpers/constants";
 
 function TicketTitle(props) {
     return (

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import constants from './constants';
-import Navbar from './Navbar';
+import constants from '../helpers/constants';
+import Navbar from '../components/Navbar';
 
 test('should render navbar with brand', () => {
   render(<Navbar />);

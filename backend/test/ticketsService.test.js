@@ -2,9 +2,9 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-var ticketsService = require('../ticketsService');
-var httpsClient = require('../httpsClient');
-const constants = require('../constants');
+var ticketsService = require('../services/ticketsService');
+var httpsClient = require('../helpers/httpsClient');
+const constants = require('../helpers/constants');
 const testTicketsData = require('./testTicketsData');
 
 describe('ticketsService', () => {

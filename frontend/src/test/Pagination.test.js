@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Pagination from './Pagination';
+import Pagination from '../components/Pagination';
 
 test('should render navbar and tickets', () => {
     render(<Pagination page="testpagination" />);

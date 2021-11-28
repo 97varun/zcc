@@ -1,6 +1,6 @@
 const express = require('express')
-const constants = require('./constants');
-const ticketService = require('./ticketsService');
+const constants = require('../helpers/constants');
+const ticketService = require('../services/ticketsService');
 
 const router = express.Router()
 

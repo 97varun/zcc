@@ -1,6 +1,6 @@
-import './App.css';
-import Navbar from './Navbar';
-import Tickets from './Tickets';
+import './App.css'
+import Navbar from './components/Navbar';
+import Tickets from './components/Tickets';
 
 function App() {
   return (

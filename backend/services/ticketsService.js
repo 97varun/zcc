@@ -1,6 +1,6 @@
-const httpsClient = require('./httpsClient');
-const constants = require('./constants');
-const configHelper = require('./configHelper');
+const httpsClient = require('../helpers/httpsClient');
+const constants = require('../helpers/constants');
+const configHelper = require('../helpers/configHelper');
 
 function getQueryString(direction, cursor) {
     queryParameters = [

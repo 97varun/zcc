@@ -1,5 +1,5 @@
 import constants from "./constants";
-import CustomPlaceholder from './CustomPlaceholder';
+import CustomPlaceholder from '../components/CustomPlaceholder';
 
 const loadingTickets = [
     {
@@ -41,7 +41,6 @@ function fetchTickets(path, setState) {
             });
         })
         .catch((error) => {
-            console.log(error);
             setState({
                 tickets: [{ id: 1, subject: constants.ERROR_MESSAGE_SUBJECT, description: constants.ERROR_MESSAGE_DESCRIPTION }],
                 error: error,
